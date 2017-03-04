@@ -1,0 +1,14 @@
+<div id ='searchBlogDiv' ng-controller="searchBlogController">
+	<h2>Search Results</h2>
+	<h2>{{searchString}}</h2>
+	<ul>
+		<li ng-repeat="aBlog in searchBlogs" style="list-style-type: none;">
+			<h2 style="color:blue;">{{aBlog.title}}</h2>
+			<cite>Posted by {{aBlog.createdBy}} on {{aBlog.createDate | date}}</cite>
+			<p>{{aBlog.content}}</p>
+			<p class="fa fa-comment push-left">1</p>
+			<p class="fa fa-heart push-right">4</p>
+			<hr>
+		</li>
+	</ul>
+</div>

@@ -1,0 +1,41 @@
+<div id='homeDiv' ng-controller="bloggingHomeController">
+<h2>Logged In User Details</h2>
+<h2>{{loggedInUserName}}</h2>
+	<div id ='headerBox'>
+		<hr/>
+		<a href='#/home' id='newPost' ng-click="selectTab('newPost')">NewPost</a> |
+		<input id='searchBlogInput' ng-model="searchQuery">
+		<a href='#/home' id='searchBlog' ng-click="selectTab('searchBlog');setSearchQuery()">Search Blog</a> | Invite
+		<input id='invites' placeholder="email1, email2, email3"> |
+		<!-- TODO get the user name dynamically -->
+		<a href ='#/home' id='updateProfile' ng-click="selectTab('profileUpdate')">{{loggedInUserfirstName}}</a> |
+		<a href ='#/home' id='myBlogs' ng-click="selectTab('myBlogs')">My Blogs</a> |
+		<a href ='#/home' id='allBlogs' ng-click="selectTab('allBlogs')">All Blogs</a> |
+		<a href ='#/' id='logout' ng-click="logoutUser()">Logout</a>
+		<hr/>
+	</div>
+	<div id="mainContent">
+
+		<!-- FAVORITE POSTS  -->
+		<div id='favoriteDiv' style="float:left;width:25%;">
+			<h3>Favorite Posts</h3>
+			<!--  TODO Write the favorite links here-->
+			<textarea id="favoriteArea" rows="15" cols="20" style="overflow:scroll;" readonly></textarea>
+		</div>
+	
+		<div id="middle" style="float:left;width:50%;">
+			<h1>{{searchQuery}}</h1>
+			<search-blog-results ng-show="isSelected('searchBlog')"></search-blog-results>
+			<show-all-blogs ng-show="isSelected('allBlogs')"></show-all-blogs>
+			<update-profile ng-show="isSelected('profileUpdate')"></update-profile>
+			<post-new-blog ng-show="isSelected('newPost')"></post-new-blog>
+			<show-my-blogs ng-show="isSelected('myBlogs')"></show-my-blogs>
+		</div>
+	
+		<!-- CHAT AREA -->
+		<div id ='chatAreaDiv' style="float:left;width:25%;">
+			<h3>Messages</h3>
+			<show-chat></show-chat>
+		</div>
+	</div>
+</div>

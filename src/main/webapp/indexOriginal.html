@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Phase 1</title>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script type="text/javascript" src="blog.js"></script>
+
+<script type="text/javascript">
+	function loadBlog (var userId) {
+		$.ajax({
+			url : ' http://localhost:8080/phase1/blogger/user/getUser/' + String(userId),
+			type : 'get',
+			contentType: 'application/json',
+			accept : 'application/json',
+			success : function(response) {
+				for (i in response.blogs) {
+					/* Create a new text area for the blog*/
+					var blogArea = document.createElement("textarea");
+					blogArea.setAttribute(rows="20" cols="80" style="overflow:scroll;");
+					blogArea.value(response.blogs[i].title);
+					blogArea.value(response.blogs[i].content);
+					$.ajax({
+						url : 'http://localhost:8080/phase1/blogger/blog/getComments/' + String(blogs[i].blogId),
+						type : 'get',
+						contentType: 'application/json',
+						accept : 'application/json',
+						success : function(responseComment) {
+							var comArea = document.createElement("textarea");
+							comArea.setAttribute(style="overflow:scroll;");
+							for (j in responseComment) {
+								comArea.val(comArea.val() + responseComment[j].comment);
+							}
+						}//function close
+					});
+					$("#blogAreaDiv").appendChild(blogArea);
+					$("#blogAreaDiv").appendChild(comArea);
+				}//end of for
+			} // end of function()		   
+		});
+	}
+</script>
+
+</head>
+<body>
+<h2>Blogger</h2>
+<hr/>
+<div id='loginFormDiv'>
+	Login Required!<br/><br/>
+	User Name <input id='loginUserName'> Password <input id='loginPassword' type='password'>
+	<button id="loginButton">Login</button>
+    <br/><br/>
+	Not Registered yet ? <button id="registerButton">Register</button>
+	<!--  <textarea id="chatMessages" style="overflow:scroll;"></textarea>-->
+</div>
+
+<div id='registerFormDiv'>
+	<h2>Register Yourself !</h2>
+	<table id='registerTable'>
+		<tr>
+			<td>First Name</td>
+			<td><input id='registerFirstName'></td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td><input id='registerLastName'></td>
+		</tr>
+		<tr>
+			<td>User Name</td>
+			<td><input id='registerUserName'></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><input type='password' id='registerPassword'></td>
+		</tr>
+		<tr>
+			<td>Confirm Password</td>
+			<td><input type='password' id='registerConfirmPassword'></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><input id='registerEmail'></td>
+		</tr>
+		<tr>
+			<td>Phone Number</td>
+			<td><input id='registerPhone'></td>
+		</tr>
+		<tr>
+			<td>Areas of Interest</td>
+			<td><input id='registerInterest'></td>
+		</tr>
+		<tr>
+		<td><button id="registerUserButton">Register</button></td>
+		<td><button id="registerCancel">Cancel</button></td>
+	</table>
+</div>
+
+
+
+<div id ='headerBox'>
+	<hr/>
+	<a href='#' id='newPost'>NewPost</a> |
+	<input id='searchBlogInput'>
+	<a href='#' id='searchBlog'>Search Blog</a> | Invite
+	<input id='invites' placeholder="email1, email2, email3"> |
+	<!-- TODO get the user name dynamically -->
+	<a href ='#' id='updateProfile'></a> |
+	<a href ='#' id='logout'>Logout</a>
+	<hr/>
+</div>
+
+
+<div id="mainContent">
+
+	<!-- FAVORITE POSTS  -->
+	<div id='favoriteDiv' style="float:left;width:25%;">
+		<h3>Favorite Posts</h3>
+		<!--  TODO Write the favorite links here-->
+		<textarea id="favoriteArea" rows="15" cols="20" style="overflow:scroll;" readonly></textarea>
+	</div>
+	
+	<div id="middle" style="float:left;width:50%;">
+	
+		<!-- SEARCH RESULTS-->
+		<div id='searchResultsDiv'>
+			<h3>Search Results</h3>
+			<textarea id="serachResultArea" style="overflow:scroll;" readonly></textarea>
+		</div>
+		
+		<!-- NEW POST  -->
+		<div id='newPostDiv'>
+			<h3>New Post</h3>
+			<table id='newPostTable'>
+				<tr>
+					<td>Title</td>
+					<td><input id='title'></td>
+				</tr>
+				<tr>
+					<td>Tags</td>
+					<td><input id='tags'></td>		
+				</tr>
+				<tr>
+					<td>Post</td>
+				</tr>
+				<tr>
+					<td><textarea id='newPostData' rows="15" cols ="20" style="overflow:scroll;"></textarea></td>
+				</tr>
+				<tr>
+					<td><a href ='#' id='saveNewPost'>Save</a></td>
+					<td>|</td>
+					<td><a href ='#' id='cancelNewPost'>Cancel</a></td>
+				</tr>
+			</table>
+		</div>
+		
+		<!-- BLOG AREA -->
+		
+		<div id='blogAreaDiv'>
+			<h2>BLOG AREA</h2>
+			<table id ='blogAreaTable'>
+				<tr>
+				<td><textarea id='bloggingArea' rows="15" cols="50" style="overflow:scroll;" readonly></textarea></td>
+				</tr>
+			</table>
+		
+		</div>
+		<!--  TODO : In update profile all the value has to retrieved from DB -->
+		<div id='updateProfileDiv'>
+			<h2>Your Profile</h2>
+			<table id='updateProfileTable'>
+				<tr>
+					<td>First Name</td>
+					<td><input id='updateProfileFirstName'></td>
+				</tr>
+				<tr>
+					<td>Last Name</td>
+					<td><input id='updateProfileLastName'></td>
+				</tr>
+				<tr>
+					<td>User Name</td>
+					<td><input id='updateProfileUserName' readonly></td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type='password' id='updateProfilePassword'></td>
+				</tr>
+				<tr>
+					<td>Confirm Password</td>
+					<td><input type='password' id='updateProfileConfirmPassword'></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input id='updateProfileEmail'></td>
+				</tr>
+				<tr>
+					<td>Phone Number</td>
+					<td><input id='updateProfilePhone'></td>
+				</tr>
+				<tr>
+					<td>Areas of Interest</td>
+					<td><input id='updateProfileInterest'></td>
+				</tr>
+				<tr>
+				<td><button id="updateProfileButton">Update</button></td>
+				<td><button id="updateProfileCancel">Cancel</button></td>
+			</table>
+		</div>
+	</div>
+
+<!-- CHAT AREA -->
+	<div id ='chatAreaDiv' style="float:left;width:25%;">
+		<h3>Messages</h3>
+		<table id ='chatAreaTable'>
+			<tr>
+				<td><textarea id='chatArea' rows="15" cols="20" style="overflow:scroll;" readonly></textarea></td>
+			</tr>
+			<tr>
+				<td><textarea id='chatBox'></textarea></td>
+			</tr>
+			<tr>	
+				<td><button id='postChatButton'>Post Message</button></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+</html>

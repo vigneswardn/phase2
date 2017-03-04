@@ -1,0 +1,11 @@
+<div id='newPostDiv' ng-controller="newPostController">
+	<h3>New Post</h3>
+	Title122 <input ng-model="newPost.title"><br />
+	Tags <input ng-model="newPost.tags"><br />
+	Post <br />
+	<textarea id='newPostContent' ng-model="newPost.content" rows="15" cols ="20" style="overflow:scroll;"></textarea>	
+	<a href='#/home' ng-click='saveNewPost()'>Save</a> | <a href='#/home' ng-click='cancelNewPost()'>Cancel</a>
+	<h2>Title {{newPost.title}}</h2>
+	<h2>Tags {{newPost.tags}}</h2>
+	<h3>Content {{newPost.content}}</h3>
+</div>

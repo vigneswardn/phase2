@@ -1,0 +1,23 @@
+<div id ='showMyBlogsDiv' ng-controller="showMyBlogsController">
+	<h2>MY BLOGS</h2>
+	<ul>
+		<li ng-repeat="aBlog in allMyBlogs" style="list-style-type: none;">
+			<h2 style="color:blue;">{{aBlog.title}}</h2>
+			<cite>Posted by {{aBlog.createdBy}} on {{aBlog.createDate | date}}</cite>
+			<p style="word-wrap: break-word;width: 70%;">{{aBlog.content}}</p>
+			<p class="fa fa-comment push-left" ng-click="selectComment($index);clearComments();passBlogId(aBlog.blogId)"></p>
+			<div ng-show="isSelectedComment($index)">
+				<ul>
+					<li ng-repeat="aComment in allMyComments" style="list-style-type: none;">
+						<h5 style="color:blue;">{{aComment.comment}}</h5>
+						<cite>Posted by {{aComment.createdBy}} on {{aComment.createdDate | date}}</cite>
+					</li>
+				</ul>
+				<textarea id='commentBox' ng-model='mycommentMessage'></textarea>
+				<br/>
+				<button id='postComment' ng-click = postCommentMessage(aBlog.blogId)>Post Message</button>
+			</div>
+			<hr>
+		</li>
+	</ul>
+</div>

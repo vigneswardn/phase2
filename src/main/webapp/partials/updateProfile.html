@@ -1,0 +1,41 @@
+<div id='updateProfileDiv' ng-controller="updateProfileController">
+	<h2>Your Profile</h2>
+	<table id='updateProfileTable'>
+		<tr>
+			<td>First Name</td>
+			<td><input id='updateProfileFirstName' ng-model="updateProfile.firstName"></td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td><input id='updateProfileLastName' ng-model="updateProfile.lastName"></td>
+		</tr>
+		<tr>
+			<td>User Name</td>
+			<td><input id='updateProfileUserName' ng-model="updateProfile.userName" readonly></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><input type='password' id='updateProfilePassword' ng-model="updateProfile.password"></td>
+		</tr>
+		<tr>
+			<td>Confirm Password</td>
+			<td><input type='password' id='updateProfileConfirmPassword' ng-model="updateProfile.confirmPassword"></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><input id='updateProfileEmail' ng-model="updateProfile.email" readonly></td>
+		</tr>
+		<tr>
+			<td>Phone Number</td>
+			<td><input id='updateProfilePhone' ng-model="updateProfile.phone"></td>
+		</tr>
+		<tr>
+			<td>Areas of Interest</td>
+			<td><input id='updateProfileInterest' ng-model="updateProfile.interest"></td>
+		</tr>
+		<tr>
+		<div class='error'>{{error}}</div>
+		<td><button id="updateProfileButton" ng-click="updateProfileSave()">Update</button></td>
+		<td><button id="updateProfileCancel" ng-click="updateProfileCancel()">Cancel</button></td>
+	</table>
+</div>

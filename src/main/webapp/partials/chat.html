@@ -1,0 +1,12 @@
+<div id='chatHtmlDiv' ng-controller='chatController'>
+	<ul>
+		<li ng-repeat="aChat in allChats" style="list-style-type: none;">
+			<b style="color:red;">{{aChat.message}}</b><br/>
+			<cite>by {{aChat.createdBy}} on {{aChat.createdDate | date}}</cite>
+		</li>
+	</ul>
+	<textarea id='chatBox' ng-model='chatMessage'></textarea>
+	<br/>
+	<div class='error'>{{error}}</div>
+	<button id='postChatButton' ng-click = postChatMessage()>Post Message</button>	
+</div>

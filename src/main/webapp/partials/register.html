@@ -1,0 +1,41 @@
+<div id='registerFormDiv' ng-controller = 'registerController'>
+	<h2>Register Yourself !</h2>
+	<table id='registerTable'>
+		<tr>
+			<td>First Name</td>
+			<td><input id='registerFirstName' ng-model='register.firstName'></td>
+		</tr>
+		<tr>
+			<td>Last Name</td>
+			<td><input id='registerLastName' ng-model='register.lastName'></td>
+		</tr>
+		<tr>
+			<td>User Name</td>
+			<td><input id='registerUserName' ng-model='register.userName'></td>
+		</tr>
+		<tr>
+			<td>Password</td>
+			<td><input type='password' id='registerPassword' ng-model='register.password'></td>
+		</tr>
+		<tr>
+			<td>Confirm Password</td>
+			<td><input type='password' id='registerConfirmPassword' ng-model='register.confirmPassword'></td>
+		</tr>
+		<tr>
+			<td>Email</td>
+			<td><input id='registerEmail' ng-model='register.email'></td>
+		</tr>
+		<tr>
+			<td>Phone Number</td>
+			<td><input id='registerPhone' ng-model='register.phone' placeholder="10 Digit number"></td>
+		</tr>
+		<tr>
+			<td>Areas of Interest</td>
+			<td><input id='registerInterest' ng-model='register.aof'></td>
+		</tr>
+		<tr>
+		<div class='error'>{{error}}</div>
+		<td><button id="registerUserButton" ng-click='registerUser(register)'>Register</button></td>
+		<td><button id="registerCancel" ng-click='registerCancel()'>Cancel</button></td>
+	</table>
+</div>

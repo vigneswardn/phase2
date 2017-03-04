@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html>
+<html ng-app="newApp">
 <head>
-<meta charset="UTF-8">
-<title>Phase 2</title>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+<script src="https://code.angularjs.org/latest/angular.min.js"></script>
+<script src="https://code.angularjs.org/latest/angular-route.min.js"></script>
+<script src="angular-local-storage.min.js"></script>
+<script src="angular-base64.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<script type="text/javascript" src="allDirectives.js"></script>
+<script src="backend.js"></script>
 </head>
-<body>
 
+<body>
+	<div ng-controller = "blogHomeController">
+		<!-- 
+		<a href = "#/home">Home</a>
+		<a href = "#/newPost">New Post</a>
+		<hr/>
+		-->
+		<h2>Blogger</h2>
+		<hr/>
+		
+		<div ng-view></div>
+	</div>
 </body>
 </html>
