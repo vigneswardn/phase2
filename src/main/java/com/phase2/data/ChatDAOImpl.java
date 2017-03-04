@@ -15,7 +15,7 @@ import com.phase2.api.dto.Chat;
 
 public class ChatDAOImpl implements ChatDAO {
 
-	MongoClient mongo = new MongoClient("127.0.0.1", 27017);
+	MongoClient mongo = new MongoClient("146.148.94.225", 27017);
 	
 	public ChatDAOImpl() {
 		super();

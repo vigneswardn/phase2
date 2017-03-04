@@ -19,7 +19,7 @@ import com.phase2.api.dto.Users;
 
 public class BlogDAOImpl implements BlogDAO {
 
-	MongoClient mongo = new MongoClient("127.0.0.1", 27017);
+	MongoClient mongo = new MongoClient("146.148.94.225", 27017);
 	
 	public BlogDAOImpl() {
 		super();
