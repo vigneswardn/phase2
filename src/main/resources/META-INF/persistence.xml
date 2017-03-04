@@ -13,7 +13,9 @@
 		<!-- postgres -->
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
             <!-- Local Postgres -->
+            <!--  
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres" /> 
+            -->
             <!-- Local Docker Postgres -->
           	<!--   <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.99.102:5432/postgres" />   -->
          	<!-- Google Cloud Postgres -->
