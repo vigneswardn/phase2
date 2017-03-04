@@ -19,7 +19,7 @@
             <!-- Local Docker Postgres -->
           	<!--   <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://192.168.99.102:5432/postgres" />   -->
          	<!-- Google Cloud Postgres -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://104.155.156.21:5432/postgres" /> 
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://104.154.196.174:5432/postgres" /> 
             <property name="javax.persistence.jdbc.user" value="postgres" />
             <property name="javax.persistence.jdbc.password" value="password" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
