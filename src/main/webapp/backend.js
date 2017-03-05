@@ -695,6 +695,7 @@ app.controller('registerController', function($scope, $location, registerService
 						.then(function(data) {
 							$scope.newUserData = data;
 							$scope.temp = 'dee3';
+							alert("Successfully Registered");
 							$location.path('/');
 						}, function(error) {
 							$scope.temp = 'dee3';
