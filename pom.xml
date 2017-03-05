@@ -74,11 +74,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				 
+				 <!-- 
 			<configuration>
 					<outputDirectory>/Users/vnagarat/cmad_vnagarat/programs/apache-tomcat-8.5.9/webapps</outputDirectory>
 				</configuration>  
-				 
+				  -->
 			</plugin>
 		</plugins>
 	</build>
