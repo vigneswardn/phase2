@@ -16,13 +16,13 @@
 	<div id="mainContent">
 
 		<!-- FAVORITE POSTS  -->
+		<!--
 		<div id='favoriteDiv' style="float:left;width:25%;">
 			<h3>Favorite Posts</h3>
-			<!--  TODO Write the favorite links here-->
 			<textarea id="favoriteArea" rows="15" cols="20" style="overflow:scroll;" readonly></textarea>
 		</div>
-	
-		<div id="middle" style="float:left;width:50%;">
+		-->
+		<div id="middle" style="float:left;width:70%;">
 			<search-blog-results ng-show="isSelected('searchBlog')"></search-blog-results>
 			<show-all-blogs ng-show="isSelected('allBlogs')"></show-all-blogs>
 			<update-profile ng-show="isSelected('profileUpdate')"></update-profile>
@@ -32,7 +32,7 @@
 	
 		<!-- CHAT AREA -->
 		<div id ='chatAreaDiv' style="float:left;width:25%;">
-			<h3>Messages</h3>
+			<h3>Chat Messages</h3>
 			<show-chat></show-chat>
 		</div>
 	</div>
