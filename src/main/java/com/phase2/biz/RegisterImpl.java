@@ -4,6 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Base64.Decoder;
 
 import com.phase2.api.bizInterface.Register;
@@ -33,7 +35,7 @@ public class RegisterImpl implements Register {
 	}
 
 	@Override
-	public String validateUser(String authString) throws UserNotFoundException, RegisterException {
+	public Map<String,Object> validateUser(String authString) throws UserNotFoundException, RegisterException {
 		String[] authParts = authString.split("\\s+");
 		String authInfo = authParts[1];	
 		Decoder decoder = Base64.getDecoder();
@@ -47,9 +49,9 @@ public class RegisterImpl implements Register {
 			user.setUserName(userInfo[0]);
 			user.setPassword(userInfo[1]);
 		}
-		String result = userDAO.validate(user);
+		Users userObj = userDAO.validate(user);
 		String token = null;
-		if(result != null) {
+		if(userObj != null) {
 	        String secret = "our_secret";
 	        Date date = new Date();
 	        Long expire = (date.getTime()/1000) + 300;
@@ -61,7 +63,12 @@ public class RegisterImpl implements Register {
 				e.printStackTrace();
 			}			
 		}
-		return token;
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("TOKEN", token);
+		resultMap.put("EXPIRY", 1000);
+		resultMap.put("User", userObj);
+		
+		return resultMap;
 	}
 
 }

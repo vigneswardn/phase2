@@ -1,6 +1,9 @@
 package com.phase2.rest;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -63,11 +66,8 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Object validateUser(@HeaderParam("Authorization") String authString){
 		RegisterImpl impl = new RegisterImpl();
-		String token = impl.validateUser(authString);
-		ResponseBuilder resp = Response.ok();
-		resp.header("TOKEN", token);
-		resp.header("EXPIRY", 1000);
-		return Response.ok().entity(token).build();
+		Map<String, Object> resultMap = impl.validateUser(authString);
+		return Response.ok().entity(resultMap).build();
 	}
 
 }

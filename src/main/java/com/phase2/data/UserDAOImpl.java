@@ -53,7 +53,7 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public String validate(Users user) {
+	public Users validate(Users user) {
 		EntityManager em = factory.createEntityManager();
 		Users existingUser = em.find(Users.class,user.getUserId());
 		String result = null;
@@ -64,7 +64,7 @@ public class UserDAOImpl implements UserDAO {
 				result = "success";
 			}
 		}
-		return result;
+		return existingUser;
 	}
 
 

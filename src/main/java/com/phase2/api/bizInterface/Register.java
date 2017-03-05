@@ -1,5 +1,7 @@
 package com.phase2.api.bizInterface;
 
+import java.util.Map;
+
 import com.phase2.api.dto.Users;
 import com.phase2.api.exception.DuplicateUserNameException;
 import com.phase2.api.exception.InvalidUserDetailsException;
@@ -12,5 +14,5 @@ public interface Register {
 
 	public Users updateUser(Users user) throws UserNotFoundException, RegisterException;
 	
-	public String validateUser(String authString) throws UserNotFoundException, RegisterException;
+	public Map<String, Object> validateUser(String authString) throws UserNotFoundException, RegisterException;
 }
