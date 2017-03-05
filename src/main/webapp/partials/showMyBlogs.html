@@ -4,7 +4,7 @@
 		<li ng-repeat="aBlog in allMyBlogs" style="list-style-type: none;">
 			<h2 style="color:blue;">{{aBlog.title}}</h2>
 			<cite>Posted by {{aBlog.createdBy}} on {{aBlog.createDate | date}}</cite>
-			<p style="word-wrap: break-word;width: 70%;">{{aBlog.content}}</p>
+			<p style="word-wrap: break-word;width: 90%;">{{aBlog.content}}</p>
 			<p class="fa fa-comment push-left" ng-click="selectComment($index);clearComments();passBlogId(aBlog.blogId)"></p>
 			<div ng-show="isSelectedComment($index)">
 				<ul>

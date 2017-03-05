@@ -175,7 +175,7 @@ app.controller("newPostController", function($scope, $location, $window, newPost
 	$scope.tempNewPost = '';
 	$scope.saveNewPost = function(postDetails) {
 		if (validationService.isTokenExpired()) {
-			alert('TOKEN Expired.');
+			alert('Please login again to continue.');
 			$location.path('/');
 		} else {
 			$scope.tempNewPost = 'dee1';
@@ -198,7 +198,7 @@ app.controller("newPostController", function($scope, $location, $window, newPost
 	};
 	$scope.cancelNewPost = function($scope) {
 		if (validationService.isTokenExpired()) {
-			alert('TOKEN Expired.');
+			alert('Please login again to continue.');
 			$location.path('/');
 		} else {
 			/* Do Nothing */
@@ -508,7 +508,7 @@ app.controller('updateProfileController',function($scope, $location, updateProfi
 		});
 	$scope.updateProfileSave = function() {
 		if (validationService.isTokenExpired()) {
-			alert('TOKEN Expired');
+			alert('Please login again to continue.');
 			$location.path('/');
 		} else {
 			if ($scope.updateProfile.firstName != '' && $scope.updateProfile.phone != '' && $scope.updateProfile.password != '') {
@@ -540,7 +540,7 @@ app.controller('updateProfileController',function($scope, $location, updateProfi
 	};/* End of updateProfileSave */
 	$scope.updateProfileCancel = function() {
 		if (validationService.isTokenExpired()) {
-			alert('TOKEN Expired.');
+			alert('Please login again to continue.');
 			$location.path('/');
 		} else {
 			$location.path('/home');
@@ -777,7 +777,7 @@ app.controller('chatController', function($scope, $route, $location, chatService
 	$scope.postChatMessage = function() {
 		/* Check if the token has expired */		
 		if (validationService.isTokenExpired()) {
-			alert('TOKEN Expired');
+			alert('Please login again to continue.');
 			$location.path('/');
 		} else {
 			if ($scope.chatMessage != '') {
