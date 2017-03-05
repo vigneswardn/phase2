@@ -25,7 +25,7 @@ app.controller('blogHomeController',function($scope){
     Here you can handle controller for specific route as well.
     */
 });
-app.service('validationService', function() {
+app.service('validationService', function(localStorageService) {
 	this.validatePhone = function(phone) { 
 		var phonePattern = /^\d{10}$/;
 		if(phonePattern.test(phone)) {  
@@ -40,6 +40,17 @@ app.service('validationService', function() {
 		 } else {
 			 return false;
 		 }
+	 };
+	 this.isTokenExpired = function() {
+		var currTime = new Date().getTime();
+		var loginTime = localStorageService.get('loginTime');
+		var tokenExpiryTime = localStorageService.get('tokenExpiryTime');
+		var diff = currTime-loginTime;
+		if (diff > tokenExpiryTime) {
+			return true;
+		} else {
+			return false;
+		}
 	 };
 });
 
@@ -69,7 +80,7 @@ app.service('searchStringService', function() {
 	}
 });
 
-app.controller("bloggingHomeController", function($scope, $location, searchStringService, localStorageService){
+app.controller("bloggingHomeController", function($scope, $location, searchStringService, localStorageService, validationService){
 
     /*      
     Here you can handle controller for specific route as well.
@@ -94,9 +105,13 @@ app.controller("bloggingHomeController", function($scope, $location, searchStrin
 	//searchStringService.setSearchString($scope.searchQuery);
 	$scope.logoutUser = function() {
 		localStorageService.clearAll();
-		var tempName = localStorageService.get('loggedInUserName');
 		$location.path('/');
 	};
+	$scope.checkTokenExpiry = function() {
+		if (validationService.isTokenExpired()) {
+			$location.path('/');
+		}
+	}
 	
 });
 
@@ -153,30 +168,41 @@ app.controller("newPostController", function($scope, $location, newPostService) 
 });
 */
 /*TEMP*/
-app.controller("newPostController", function($scope, $location, newPostService) {
+app.controller("newPostController", function($scope, $location, newPostService, validationService) {
 	/* Accept value based on click do necessary actions. Call the service*/
 	$scope.newPost = '';
 	$scope.newPostResult = '';
 	$scope.tempNewPost = '';
 	$scope.saveNewPost = function(postDetails) {
-		$scope.tempNewPost = 'dee1';
-		if(postDetails.title != null && postDetails.content != null && postDetails.tags != null) {
-			$scope.tempNewPost = 'dee';
-			/* Get Title, tags, content 
-			 * Pass the data to a service to insert into DB
-			 */
-			var c = JSON.parse(JSON.stringify(postDetails));
-			$scope.newPostResult = newPostService.save(c);
-			$scope.tempNewPost = 'dee3';
-			$scope.newPost = '';
-			$location.path('/home');
+		if (validationService.isTokenExpired()) {
+			alert('TOKEN Expired.');
+			$location.path('/');
 		} else {
-			$scope.errorPost = 'Title and Post and Tags are Mandatory';
+			$scope.tempNewPost = 'dee1';
+			if(postDetails.title != null && postDetails.content != null && postDetails.tags != null) {
+				$scope.tempNewPost = 'dee';
+				/* Get Title, tags, content 
+				 * Pass the data to a service to insert into DB
+				 */
+				var c = JSON.parse(JSON.stringify(postDetails));
+				$scope.newPostResult = newPostService.save(c);
+				$scope.tempNewPost = 'dee3';
+				$scope.newPost = '';
+				$location.path('/home');
+			} else {
+				$scope.errorPost = 'Title and Post and Tags are Mandatory';
+			}
 		}
-		
 	};
 	$scope.cancelNewPost = function($scope) {
-		/* Do Nothing function */
+		if (validationService.isTokenExpired()) {
+			alert('TOKEN Expired.');
+			$location.path('/');
+		} else {
+			/* Do Nothing */
+			$location.path('/home');
+		}
+		
 	};
 });
 app.service('commentsService', function($http, $q, localStorageService) {
@@ -409,7 +435,7 @@ app.service('searchBlogService', function($http, $q, localStorageService) {
 /* Controller to search blog */
 app.controller('searchBlogController',function($scope, searchBlogService, searchStringService, $location){
 	$scope.searchString = searchStringService.getSearchString();
-	/* Donot search if the query string is empty */
+	/* Do not search if the query string is empty */
 	if ($scope.searchString != '') {
 		searchBlogService.searchBlog($scope.searchString)
 			.then(function(data) {
@@ -472,7 +498,6 @@ app.service('updateProfileService', function($http, $q, localStorageService) {
 app.controller('updateProfileController',function($scope, $location, updateProfileService, localStorageService, validationService){
 	/* 1. Call the service to get the user details */
 	var uId = localStorageService.get('loggedInUserId');
-	//$scope.tempId = '2';
 	updateProfileService.getProfileDetails(uId)
 		.then(function(data) {
 			$scope.updateProfile = data;
@@ -480,34 +505,44 @@ app.controller('updateProfileController',function($scope, $location, updateProfi
 			
 		});
 	$scope.updateProfileSave = function() {
-		if ($scope.updateProfile.firstName != '' && $scope.updateProfile.phone != '' && $scope.updateProfile.password != '') {
-		/* Get user Details. 
-		 * Pass the data to a service to insert into DB
-		 */
-			if (validationService.validatePhone($scope.updateProfile.phone)) {
-				if (validationService.validatePassword($scope.updateProfile.password, $scope.updateProfile.confirmPassword)) {
-					var c = JSON.parse(JSON.stringify($scope.updateProfile));
-					var uId = localStorageService.get('loggedInUserId');
-					var u = JSON.parse(JSON.stringify(uId));
-					updateProfileService.save(c, u)
-						.then(function(data) {
-							$scope.updateProfile = data;
-							$scope.error = '';
-						}, function(error) {
-							alert("Updating User Details Failed");
-						});
+		if (validationService.isTokenExpired()) {
+			alert('TOKEN Expired');
+			$location.path('/');
+		} else {
+			if ($scope.updateProfile.firstName != '' && $scope.updateProfile.phone != '' && $scope.updateProfile.password != '') {
+			/* Get user Details. 
+			 * Pass the data to a service to insert into DB
+			 */
+				if (validationService.validatePhone($scope.updateProfile.phone)) {
+					if (validationService.validatePassword($scope.updateProfile.password, $scope.updateProfile.confirmPassword)) {
+						var c = JSON.parse(JSON.stringify($scope.updateProfile));
+						var uId = localStorageService.get('loggedInUserId');
+						var u = JSON.parse(JSON.stringify(uId));
+						updateProfileService.save(c, u)
+							.then(function(data) {
+								$scope.updateProfile = data;
+								$scope.error = '';
+							}, function(error) {
+								alert("Updating User Details Failed");
+							});
+					} else {
+						$scope.error = 'Password and Confirm Password donot match';
+					}
 				} else {
-					$scope.error = 'Password and Confirm Password donot match';
+					$scope.error = 'Phone number not valid';
 				}
 			} else {
-				$scope.error = 'Phone number not valid';
+				$scope.error = 'Firstname or Password or Phone should not be empty';
 			}
-		} else {
-			$scope.error = 'Firstname or Password or Phone should not be empty';
 		}
-	};
+	};/* End of updateProfileSave */
 	$scope.updateProfileCancel = function() {
-		$location.path('/home');
+		if (validationService.isTokenExpired()) {
+			alert('TOKEN Expired.');
+			$location.path('/');
+		} else {
+			$location.path('/home');
+		}
 	};
 });
 
@@ -547,16 +582,18 @@ app.controller('loginController', function($scope, $location, loginService, sear
 	$scope.loginApp = function() {
 		var c = JSON.parse(JSON.stringify($scope.login));
 		loginService.loginFn(c)
-			.then(function(data) {
-				//searchStringService.setloggedInUserId(data.userName);
-				localStorageService.set('loggedInUserId',data.userId);
-				localStorageService.set('loggedInUserName',data.userName);
-				localStorageService.set('loggedInUserfirstName',data.firstName);
+			.then(function(data) {				
+				localStorageService.set('loggedInUserId',data.User.userId);
+				localStorageService.set('loggedInUserName',data.User.userName);
+				localStorageService.set('loggedInUserfirstName',data.User.firstName);
 				
-				/* TODO Assuming that the access token is part of the response. Stored in the DB */
-				//data.accessToken
-				localStorageService.set('token', 'temporaryToken');
-				alert(data.userName);
+				localStorageService.set('token', data.TOKEN);
+				localStorageService.set('tokenExpiryTime', data.EXPIRY);
+				
+				/* Get the current time -- Login Time */
+				var loginTime = new Date();
+				var loginTimeInMilliseconds = loginTime.getTime();
+				localStorageService.set('loginTime', loginTimeInMilliseconds);
 				$location.path('/home');
 			}, function(error) {
 				alert("Login Failure");
@@ -726,7 +763,7 @@ app.service('chatService', function($http, $q, localStorageService) {
 	};
 });
 
-app.controller('chatController', function($scope, $route, chatService, localStorageService) {
+app.controller('chatController', function($scope, $route, $location, chatService, localStorageService, validationService) {
 	$scope.chatMessage = '';
 	chatService.getChat()
 	.then(function(data) {
@@ -735,26 +772,32 @@ app.controller('chatController', function($scope, $route, chatService, localStor
 		
 	});
 	$scope.postChatMessage = function() {
-		if ($scope.chatMessage != '') {
-			var c = JSON.parse(JSON.stringify($scope.chatMessage));
-			var uName = localStorageService.get('loggedInUserName');
-			var u = JSON.parse(JSON.stringify(uName));
-			chatService.save(c, u)
-			.then(function(data) {
-				$scope.chatMessage = '';
-			}, function(error) {
-				
-			})
-			
-			chatService.getChat()
-			.then(function(data) {
-				$scope.allChats = data;
-				$route.reload();				
-			}, function(error) {
-				
-			});
+		/* Check if the token has expired */		
+		if (validationService.isTokenExpired()) {
+			alert('TOKEN Expired');
+			$location.path('/');
 		} else {
-			$scope.error = 'Enter Some Message';
+			if ($scope.chatMessage != '') {
+				var c = JSON.parse(JSON.stringify($scope.chatMessage));
+				var uName = localStorageService.get('loggedInUserName');
+				var u = JSON.parse(JSON.stringify(uName));
+				chatService.save(c, u)
+				.then(function(data) {
+					$scope.chatMessage = '';
+				}, function(error) {
+					
+				})
+				
+				chatService.getChat()
+				.then(function(data) {
+					$scope.allChats = data;
+					$route.reload();				
+				}, function(error) {
+					
+				});
+			} else {
+				$scope.error = 'Enter Some Message';
+			}
 		}
-	};
+	}; /* End of postChatMessage*/
 });
