@@ -55,7 +55,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public Users validate(Users user) {
 		EntityManager em = factory.createEntityManager();
-		Users existingUser = em.find(Users.class,user.getUserId());
+		Users existingUser = em.find(Users.class,user.getUserName());
 		String result = null;
 		if(existingUser != null) {
 			String passwordFromUI = user.getPassword();

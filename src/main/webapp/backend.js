@@ -114,7 +114,7 @@ app.service('newPostService', function($http, localStorageService) {
 			content : blog.content,
 			createdBy : loggedInUserName,			
 			tags : arr,
-			users : dataUser
+			userId : loggedInUserId
 		};
 		$http.post('/phase2/blogger/blog/addBlog/', dataPart, 
 				{
@@ -231,13 +231,9 @@ app.service('commentsService', function($http, $q, localStorageService) {
 app.service('getAllBlogsService', function($http, $q, localStorageService) {
 	var deferred = $q.defer();
 
-	/* TODO Change this to get all the blogs */
 	this.getAllBlogs = function() {
-		var dataPart = {
-			userId : 1
-		};
 		 var token = localStorageService.get('token');
-		return $http.post('/phase2/blogger/blog/getBlogs/', dataPart,
+		return $http.get('/phase2/blogger/blog/getAllBlogs/',
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -528,7 +524,7 @@ app.service('loginService', function($http, $q, $base64) {
 			userName : userCredentials.userName,
 			password : userCredentials.password
 		};
-		return $http.post('/phase2/blogger/user/getUser/', dataPart,
+		return $http.get('/phase2/blogger/user/validateUser/',
 				{
 	        		withCredentials: true,
 	        		headers:{ 'Authorization':  'Basic ' +  encodeduserNamePassword}
