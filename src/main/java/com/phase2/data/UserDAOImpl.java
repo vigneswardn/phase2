@@ -72,6 +72,14 @@ public class UserDAOImpl implements UserDAO {
 		return returnUser;
 	}
 
+	@Override
+	public Users readById(Users user) {
+		EntityManager em = factory.createEntityManager();
+		user = em.find(Users.class, user.getUserId());
+		em.close();
+		return user;
+	}
+
 
 
 	

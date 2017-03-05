@@ -15,4 +15,6 @@ public interface Register {
 	public Users updateUser(Users user) throws UserNotFoundException, RegisterException;
 	
 	public Map<String, Object> validateUser(String authString) throws UserNotFoundException, RegisterException;
+
+	public Users getUserById(Users user) throws UserNotFoundException, RegisterException;
 }

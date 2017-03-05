@@ -10,4 +10,6 @@ public interface UserDAO {
 	
 	public Users validate(Users user);
 	
+	public Users readById(Users user);
+	
 }

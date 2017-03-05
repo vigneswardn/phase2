@@ -71,4 +71,14 @@ public class RegisterImpl implements Register {
 		return resultMap;
 	}
 
+	@Override
+	public Users getUserById(Users user) throws UserNotFoundException, RegisterException {
+		try {
+			user = userDAO.readById(user);
+		} catch(Exception nre) {
+			throw new UserNotFoundException(nre.getMessage());
+		}
+		return user;
+	}
+
 }

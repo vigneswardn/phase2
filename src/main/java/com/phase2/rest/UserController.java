@@ -10,11 +10,13 @@ import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
+import com.phase1.biz.LoginImpl;
 import com.phase2.api.dto.Users;
 import com.phase2.api.exception.InvalidUserDetailsException;
 import com.phase2.api.exception.InvalidUserIdException;
@@ -70,4 +72,18 @@ public class UserController {
 		return Response.ok().entity(resultMap).build();
 	}
 
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/getUser/{userId}")
+	public Response getUser(@PathParam("userId") String userId) {
+		if(userId == null) {
+			throw new InvalidUserIdException("Please provide user id");
+		}
+		RegisterImpl impl = new RegisterImpl();
+		Users user = new Users();
+		user.setUserId(Integer.valueOf(userId));
+		user = impl.getUserById(user);
+		return Response.ok().entity(user).build();
+	}
+	
 }
