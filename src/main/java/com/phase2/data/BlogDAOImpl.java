@@ -16,6 +16,7 @@ import com.mongodb.client.MongoDatabase;
 import com.phase2.api.dto.Blog;
 import com.phase2.api.dto.Comments;
 import com.phase2.api.dto.Users;
+import com.phase2.util.BlogUtil;
 
 public class BlogDAOImpl implements BlogDAO {
 
@@ -33,13 +34,13 @@ public class BlogDAOImpl implements BlogDAO {
 		boolean isFavourite = true;
 		String[] tags = new String[4];
 		tags[0]= "abc";
-		document.put("userId", 123456);
-		document.put("title", "Mongo and Java");
-		document.put("content", "Mongo and Java");
+		document.put("userId", blog.getUserId());
+		document.put("blogId", BlogUtil.generateId());
+		document.put("title", blog.getTitle());
+		document.put("content", blog.getContent());
 		document.put("createDate", new Date());
-		document.put("createdBy", "Mongo");
+		document.put("createdBy", blog.getCreatedBy());
 		document.put("isFavourite", isFavourite);
-		document.put("contents", "sample");
 		//document.put("tags", tags);
 		collection.insertOne(document);
 		mongo.close();
@@ -100,7 +101,7 @@ public class BlogDAOImpl implements BlogDAO {
 		MongoCollection<Document> collection = db.getCollection("comments");
 		Document document = new Document();
 		document.put("blogId", comments.getBlogId());
-		document.put("commentId", comments.getCommentId());
+		document.put("commentId", BlogUtil.generateId());
 		document.put("createdBy", comments.getCreatedBy());
 		document.put("createDate", new Date());
 		document.put("content", comments.getComment());

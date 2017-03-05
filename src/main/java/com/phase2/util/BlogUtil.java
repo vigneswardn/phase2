@@ -15,12 +15,11 @@ public class BlogUtil {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public static String generateToken(Users user) {
+	public static String generateId() {
 		SecureRandom random = new SecureRandom();
 		byte bytes[] = new byte[100];
 		random.nextBytes(bytes);
 		String token = bytes.toString();
-		System.out.println("Token for User : "+user.getUserName()+" is :"+token);
 		return token;
 	}
 	
