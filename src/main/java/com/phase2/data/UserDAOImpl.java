@@ -1,8 +1,11 @@
 package com.phase2.data;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import com.phase2.api.dto.Users;
 
@@ -55,16 +58,18 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public Users validate(Users user) {
 		EntityManager em = factory.createEntityManager();
-		Users existingUser = em.find(Users.class,user.getUserName());
-		String result = null;
-		if(existingUser != null) {
+		Query query = em.createNativeQuery("select a.* from Users a where userName =:userName",Users.class);
+		query.setParameter("userName", user.getUserName());
+		List<Users> users = (List<Users>) query.getResultList();
+		Users returnUser = null;
+		if(users != null && users.get(0)!=null) {
 			String passwordFromUI = user.getPassword();
-			String passwordFromDB = existingUser.getPassword();
+			String passwordFromDB = users.get(0).getPassword();
 			if(passwordFromUI.equals(passwordFromDB)) {
-				result = "success";
+				returnUser  = users.get(0);
 			}
 		}
-		return existingUser;
+		return returnUser;
 	}
 
 
