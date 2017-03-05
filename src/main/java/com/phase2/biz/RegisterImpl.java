@@ -65,7 +65,7 @@ public class RegisterImpl implements Register {
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("TOKEN", token);
-		resultMap.put("EXPIRY", 1000);
+		resultMap.put("EXPIRY", 12000);
 		resultMap.put("User", userObj);
 		
 		return resultMap;
