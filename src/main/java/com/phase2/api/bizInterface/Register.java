@@ -12,4 +12,5 @@ public interface Register {
 
 	public Users updateUser(Users user) throws UserNotFoundException, RegisterException;
 	
+	public String validateUser(String authString) throws UserNotFoundException, RegisterException;
 }

@@ -2,15 +2,12 @@ package com.phase2.biz;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.bson.Document;
 
-import com.mongodb.client.FindIterable;
 import com.phase2.api.bizInterface.Blogger;
 import com.phase2.api.dto.Blog;
 import com.phase2.api.dto.Comments;
-import com.phase2.api.dto.Invites;
 import com.phase2.api.dto.Users;
 import com.phase2.api.exception.BloggerException;
 import com.phase2.data.BlogDAO;

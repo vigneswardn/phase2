@@ -8,4 +8,6 @@ public interface UserDAO {
 	
 	public Users update(Users user);
 	
+	public String validate(Users user);
+	
 }
