@@ -58,6 +58,11 @@
 		    <artifactId>commons-codec</artifactId>
 		    <version>1.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.httpunit</groupId>
+			<artifactId>httpunit</artifactId>
+			<version>1.7.2</version>
+		</dependency>
 	</dependencies>
   	<build>
 		<finalName>phase2</finalName>
@@ -74,11 +79,11 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
-				 <!-- 
+		<!-- 
 			<configuration>
 					<outputDirectory>/Users/vnagarat/cmad_vnagarat/programs/apache-tomcat-8.5.9/webapps</outputDirectory>
 				</configuration>  
-				  -->
+		 -->
 			</plugin>
 		</plugins>
 	</build>
