@@ -61,6 +61,9 @@ public class BloggerImpl implements Blogger {
 
 	@Override
 	public List<Document> getBlogs(Users user) throws BloggerException {
+		if(user == null) {
+			throw new BloggerException("User id is mandatory.");
+		}
 		return blogDAO.read(user);
 	}
 
