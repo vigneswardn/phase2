@@ -26,6 +26,9 @@ public class ChatImpl implements ChatMessage {
 
 	@Override
 	public void addChatMessages(Chat chatMsg) {
+		if(chatMsg == null || chatMsg.getMessage() == null) {
+			throw new ChatException("Please provide chat details");
+		}
 		try {
 			chatDAO.create(chatMsg);	
 		} catch(Exception e) {

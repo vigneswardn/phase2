@@ -38,7 +38,10 @@ public class BloggerImpl implements Blogger {
 	}
 
 	@Override
-	public List<Document> searchBlog(String searchContent) {
+	public List<Document> searchBlog(String searchContent) throws BloggerException {
+		if(searchContent == null || searchContent.trim().length() == 0) {
+			throw new BloggerException("Search content is empty.");
+		}
 		return blogDAO.searchBlog(searchContent);
 	}
 
@@ -49,7 +52,10 @@ public class BloggerImpl implements Blogger {
 	}
 
 	@Override
-	public List<Document> getComments(Blog blog) {
+	public List<Document> getComments(Blog blog) throws BloggerException {
+		if(blog.getBlogId() == null) {
+			throw new BloggerException("Blog id is mandatory.");
+		}
 		return blogDAO.readComments(blog);
 	}
 

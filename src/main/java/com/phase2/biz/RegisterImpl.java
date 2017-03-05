@@ -11,6 +11,8 @@ import java.util.Base64.Decoder;
 import com.phase2.api.bizInterface.Register;
 import com.phase2.api.dto.Users;
 import com.phase2.api.exception.DuplicateUserNameException;
+import com.phase2.api.exception.InvalidUserDetailsException;
+import com.phase2.api.exception.InvalidUserIdException;
 import com.phase2.api.exception.RegisterException;
 import com.phase2.api.exception.UserNotFoundException;
 import com.phase2.data.UserDAO;
@@ -25,12 +27,21 @@ public class RegisterImpl implements Register {
 		userDAO = new UserDAOImpl();
 	}
 
-	public void addUser(Users user) throws DuplicateUserNameException, RegisterException {
+	public void addUser(Users user) throws DuplicateUserNameException, InvalidUserDetailsException, RegisterException {
+		if(user == null || user.getUserName() == null || user.getEmail() == null || user.getFirstName() == null) {
+			throw new InvalidUserDetailsException("Please provide all mandatory fields.");
+		}
 		userDAO.create(user);
 	}
 
 	public Users updateUser(Users user) throws UserNotFoundException, RegisterException {
+		if(user == null || user.getUserId() == null) {
+			throw new InvalidUserIdException("Invalid user id");
+		}
 		user = userDAO.update(user);
+		if(user == null) {
+			throw new UserNotFoundException("Unable to find user");
+		}
 		return user;
 	}
 
@@ -73,6 +84,9 @@ public class RegisterImpl implements Register {
 
 	@Override
 	public Users getUserById(Users user) throws UserNotFoundException, RegisterException {
+		if(user.getUserId() == null) {
+			throw new InvalidUserIdException("Please provide user id");
+		}
 		try {
 			user = userDAO.readById(user);
 		} catch(Exception nre) {

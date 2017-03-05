@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
 
@@ -26,8 +27,13 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getBlogs/")
 	public Response getBlogs(Users user) {
-		BloggerImpl impl = new BloggerImpl();
-		List<Document> blogs = impl.getBlogs(user);
+		List<Document> blogs = null;
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			blogs = impl.getBlogs(user);
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
+		}
 		return Response.ok().entity(blogs).build();
 	}
 	
@@ -35,11 +41,13 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/searchBlog/{searchContent}")
 	public Response searchBlog(@PathParam("searchContent")String searchContent) {
-		if(searchContent == null || searchContent.trim().length() == 0) {
-			throw new BloggerException("Search content is empty.");
+		List<Document> blogs = null;
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			blogs = impl.searchBlog(searchContent);
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
 		}
-		BloggerImpl impl = new BloggerImpl();
-		List<Document> blogs = impl.searchBlog(searchContent);
 		return Response.ok().entity(blogs).build();
 	}
 	
@@ -48,8 +56,12 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addBlog/")
 	public Response addBlog(Blog blog) {
-		BloggerImpl impl = new BloggerImpl();
-		impl.addBlog(blog);
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			impl.addBlog(blog);
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
+		}
 		return Response.ok().entity(blog).build();
 	}
 	
@@ -58,8 +70,12 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addComments/")
 	public Response addComments(Comments comment) {
-		BloggerImpl impl = new BloggerImpl();
-		impl.addComments(comment);
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			impl.addComments(comment);
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
+		}
 		return Response.ok().entity("success").build();
 	}
 	
@@ -68,13 +84,15 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getComments/{blogId}")
 	public Response getComments(@PathParam("blogId")Integer blogId) {
-		if(blogId == null) {
-			throw new BloggerException("Blog id is mandatory.");
+		List<Document> comments = null;
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			Blog blog = new Blog();
+			blog.setBlogId(blogId);
+			comments = impl.getComments(blog);
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
 		}
-		BloggerImpl impl = new BloggerImpl();
-		Blog blog = new Blog();
-		blog.setBlogId(blogId);
-		List<Document> comments = impl.getComments(blog);
 		return Response.ok().entity(comments).build();
 	}
 	
@@ -82,8 +100,13 @@ public class BlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getAllBlogs/")
 	public Response getAllBlogs() {
-		BloggerImpl impl = new BloggerImpl();
-		List<Document> blogs = impl.getAllBlogs();
+		List<Document> blogs = null;
+		try {
+			BloggerImpl impl = new BloggerImpl();
+			blogs = impl.getAllBlogs();
+		} catch(BloggerException e) {
+			Response.status(Status.BAD_REQUEST);
+		}
 		return Response.ok().entity(blogs).build();
 	}
 }

@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.bson.Document;
 
@@ -22,8 +23,14 @@ public class ChatController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getChats/")
 	public Response getChats() {
-		ChatImpl impl = new ChatImpl();
-		List<Document> chats = impl.getChatMessages();
+		List<Document> chats = null;
+		try {
+			ChatImpl impl = new ChatImpl();
+			chats = impl.getChatMessages();
+		} catch (ChatException e) {
+			Response.status(Status.BAD_REQUEST);
+		}
+	
 		return Response.ok().entity(chats).build();
 	}
 
@@ -31,11 +38,12 @@ public class ChatController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addChat/")
 	public Response addChat(Chat chatMsg) {
-		if(chatMsg == null || chatMsg.getMessage() == null) {
-			throw new ChatException("Please provide chat details");
+		try {
+			ChatImpl impl = new ChatImpl();
+		impl.addChatMessages(chatMsg);	
+		} catch (ChatException e) {
+			Response.status(Status.BAD_REQUEST);
 		}
-		ChatImpl impl = new ChatImpl();
-		impl.addChatMessages(chatMsg);
 		return Response.ok().entity("success").build();
 	}
 }

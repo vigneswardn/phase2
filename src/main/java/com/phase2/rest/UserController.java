@@ -15,8 +15,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.phase2.api.dto.Users;
+import com.phase2.api.exception.DuplicateUserNameException;
 import com.phase2.api.exception.InvalidUserDetailsException;
 import com.phase2.api.exception.InvalidUserIdException;
+import com.phase2.api.exception.UserNotFoundException;
 import com.phase2.biz.RegisterImpl;
 
 @Path("/user")
@@ -33,11 +35,15 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/addUser/")
 	public Response addUser(Users user) {
-		if(user == null || user.getUserName() == null || user.getEmail() == null || user.getFirstName() == null) {
-			throw new InvalidUserDetailsException("Please provide all mandatory fields.");
-		}
 		RegisterImpl impl = new RegisterImpl();
-		impl.addUser(user);
+		try {
+			impl.addUser(user);
+		} catch(InvalidUserDetailsException e) {
+			Response.status(Response.Status.BAD_REQUEST);
+		} catch(DuplicateUserNameException e) {
+			Response.status(Response.Status.CONFLICT);
+		}
+		
 		return Response.ok().entity(user).build();
 	}
 
@@ -52,11 +58,14 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/updateUser/")
 	public Response updateUser(Users user) {
-		if(user == null || user.getUserId() == null) {
-			throw new InvalidUserIdException("Invalid user id");
-		}
 		RegisterImpl impl = new RegisterImpl();
-		user = impl.updateUser(user);
+		try {
+			user = impl.updateUser(user);
+		} catch(InvalidUserDetailsException e) {
+			Response.status(Response.Status.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			Response.status(Response.Status.NOT_FOUND);
+		}
 		return Response.ok().entity(user).build();
 	}
 
@@ -65,7 +74,14 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Object validateUser(@HeaderParam("Authorization") String authString){
 		RegisterImpl impl = new RegisterImpl();
-		Map<String, Object> resultMap = impl.validateUser(authString);
+		Map<String, Object> resultMap = null;
+		try {
+			resultMap = impl.validateUser(authString);	
+		} catch(InvalidUserDetailsException e) {
+			Response.status(Response.Status.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			Response.status(Response.Status.NOT_FOUND);
+		}
 		return Response.ok().entity(resultMap).build();
 	}
 
@@ -73,13 +89,16 @@ public class UserController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getUser/{userId}")
 	public Response getUser(@PathParam("userId") String userId) {
-		if(userId == null) {
-			throw new InvalidUserIdException("Please provide user id");
-		}
-		RegisterImpl impl = new RegisterImpl();
 		Users user = new Users();
-		user.setUserId(Integer.valueOf(userId));
-		user = impl.getUserById(user);
+		try {
+			RegisterImpl impl = new RegisterImpl();
+			user.setUserId(Integer.valueOf(userId));
+			user = impl.getUserById(user);
+		} catch(InvalidUserDetailsException e) {
+			Response.status(Response.Status.BAD_REQUEST);
+		} catch(UserNotFoundException e) {
+			Response.status(Response.Status.NOT_FOUND);
+		}
 		return Response.ok().entity(user).build();
 	}
 	
