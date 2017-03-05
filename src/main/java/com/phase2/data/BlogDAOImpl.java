@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.bson.BsonArray;
 import org.bson.Document;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
@@ -50,7 +52,8 @@ public class BlogDAOImpl implements BlogDAO {
 	public List<Document> readAllBlogs() {
 		MongoDatabase db = mongo.getDatabase("cmad");
 		MongoCollection<Document> collection = db.getCollection("blogs");
-		FindIterable<Document> docs = collection.find();
+		BsonArray arr = new BsonArray();
+		FindIterable<Document> docs = collection.find().sort(new BasicDBObject("createDate", -1));
 		final ArrayList<Document> results = new ArrayList<>();
 		docs.forEach(new Block<Document>() {
 			@Override
