@@ -2,7 +2,7 @@
 	<ul>
 		<li ng-repeat="aChat in allChats" style="list-style-type: none;">
 			<b style="color:red;">{{aChat.message}}</b><br/>
-			<cite>by {{aChat.createdBy}} on {{aChat.createdDate | date}}</cite>
+			<cite>by {{aChat.createdBy}} on {{aChat.createDate | date}}</cite>
 		</li>
 	</ul>
 	<textarea id='chatBox' ng-model='chatMessage'></textarea>
