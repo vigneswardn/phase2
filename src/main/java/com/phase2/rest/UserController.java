@@ -1,7 +1,6 @@
 package com.phase2.rest;
 
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
@@ -14,9 +13,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
 
-import com.phase1.biz.LoginImpl;
 import com.phase2.api.dto.Users;
 import com.phase2.api.exception.InvalidUserDetailsException;
 import com.phase2.api.exception.InvalidUserIdException;
