@@ -168,7 +168,7 @@ app.controller("newPostController", function($scope, $location, newPostService) 
 });
 */
 /*TEMP*/
-app.controller("newPostController", function($scope, $location, newPostService, validationService) {
+app.controller("newPostController", function($scope, $location, $window, newPostService, validationService) {
 	/* Accept value based on click do necessary actions. Call the service*/
 	$scope.newPost = '';
 	$scope.newPostResult = '';
@@ -189,6 +189,8 @@ app.controller("newPostController", function($scope, $location, newPostService, 
 				$scope.tempNewPost = 'dee3';
 				$scope.newPost = '';
 				$location.path('/home');
+				/* Reloading the entire Page */
+				$window.location.reload();
 			} else {
 				$scope.errorPost = 'Title and Post and Tags are Mandatory';
 			}
@@ -763,7 +765,7 @@ app.service('chatService', function($http, $q, localStorageService) {
 	};
 });
 
-app.controller('chatController', function($scope, $route, $location, chatService, localStorageService, validationService) {
+app.controller('chatController', function($scope, $route, $location, chatService, localStorageService, validationService, $window) {
 	$scope.chatMessage = '';
 	chatService.getChat()
 	.then(function(data) {
@@ -791,7 +793,8 @@ app.controller('chatController', function($scope, $route, $location, chatService
 				chatService.getChat()
 				.then(function(data) {
 					$scope.allChats = data;
-					$route.reload();				
+					//$route.reload();
+					$window.location.reload();
 				}, function(error) {
 					
 				});
