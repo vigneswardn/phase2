@@ -116,7 +116,7 @@ app.service('newPostService', function($http, localStorageService) {
 			tags : arr,
 			users : dataUser
 		};
-		$http.post('/phase1/blogger/blog/addBlog/', dataPart, 
+		$http.post('/phase2/blogger/blog/addBlog/', dataPart, 
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -184,7 +184,7 @@ app.service('commentsService', function($http, $q, localStorageService) {
 
 	this.getComments = function(id) {
 		var token = localStorageService.get('token');
-		return $http.get('/phase1/blogger/blog/getComments/' + String(id),
+		return $http.get('/phase2/blogger/blog/getComments/' + String(id),
 			{
 				withCredentials: true,
 				headers:{ 'Authorization':  'Bearer ' +  token}
@@ -212,7 +212,7 @@ app.service('commentsService', function($http, $q, localStorageService) {
 			"blogId" : id,
 			"comments" : commentsList
 		};
-		return $http.post('/phase1/blogger/blog/addComments/', dataPart,
+		return $http.post('/phase2/blogger/blog/addComments/', dataPart,
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -237,7 +237,7 @@ app.service('getAllBlogsService', function($http, $q, localStorageService) {
 			userId : 1
 		};
 		 var token = localStorageService.get('token');
-		return $http.post('/phase1/blogger/blog/getBlogs/', dataPart,
+		return $http.post('/phase2/blogger/blog/getBlogs/', dataPart,
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -318,7 +318,7 @@ app.service('getMyBlogsService', function($http, $q, localStorageService) {
 			userId : uId
 		};
 		var token = localStorageService.get('token');
-		return $http.post('/phase1/blogger/blog/getBlogs/', dataPart, 
+		return $http.post('/phase2/blogger/blog/getBlogs/', dataPart, 
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -393,7 +393,7 @@ app.service('searchBlogService', function($http, $q, localStorageService) {
 
 	this.searchBlog = function(query) {
 		var token = localStorageService.get('token');
-		return $http.get('/phase1/blogger/blog/searchBlog/' + String(query),
+		return $http.get('/phase2/blogger/blog/searchBlog/' + String(query),
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -431,7 +431,7 @@ app.service('updateProfileService', function($http, $q, localStorageService) {
 
 	this.getProfileDetails = function(userId) {
 		var token = localStorageService.get('token');
-		return $http.get('/phase1/blogger/user/getUser/' + String(userId), 
+		return $http.get('/phase2/blogger/user/getUser/' + String(userId), 
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -456,7 +456,7 @@ app.service('updateProfileService', function($http, $q, localStorageService) {
 			password : userDetails.password,
 			phone : userDetails.phone
 		};
-		return $http.put('/phase1/blogger/user/updateUser/', dataPart,
+		return $http.put('/phase2/blogger/user/updateUser/', dataPart,
 				{
 					withCredentials: true,
 					headers:{ 'Authorization':  'Bearer ' +  token}
@@ -528,7 +528,7 @@ app.service('loginService', function($http, $q, $base64) {
 			userName : userCredentials.userName,
 			password : userCredentials.password
 		};
-		return $http.post('/phase1/blogger/user/getUser/', dataPart,
+		return $http.post('/phase2/blogger/user/getUser/', dataPart,
 				{
 	        		withCredentials: true,
 	        		headers:{ 'Authorization':  'Basic ' +  encodeduserNamePassword}
@@ -586,7 +586,7 @@ app.service('registerService', function($http, $q) {
 			email : userDetails.email,
 			phone : userDetails.phone
 		};
-		return $http.post('/phase1/blogger/user/addUser/', dataPart)
+		return $http.post('/phase2/blogger/user/addUser/', dataPart)
 			.then(function(response) {
 				deferred.resolve(response.data);
 		        return deferred.promise;
@@ -697,7 +697,7 @@ app.service('chatService', function($http, $q, localStorageService) {
 			createdBy : uName
 		};
 		var token = localStorageService.get('token');
-		return $http.post('/phase1/blogger/chat/addChat/', dataPart, 
+		return $http.post('/phase2/blogger/chat/addChat/', dataPart, 
 				{
     				withCredentials: true,
     				headers:{ 'Authorization':  'Bearer ' +  token}
@@ -714,7 +714,7 @@ app.service('chatService', function($http, $q, localStorageService) {
 	
 	this.getChat = function() {
 		var token = localStorageService.get('token');
-		return $http.get('/phase1/blogger/chat/getChats', 
+		return $http.get('/phase2/blogger/chat/getChats', 
 			{
 				withCredentials: true,
 				headers:{ 'Authorization':  'Bearer ' +  token}
