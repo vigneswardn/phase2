@@ -83,7 +83,7 @@ public class BlogController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/getComments/{blogId}")
-	public Response getComments(@PathParam("blogId")Integer blogId) {
+	public Response getComments(@PathParam("blogId")String blogId) {
 		List<Document> comments = null;
 		try {
 			BloggerImpl impl = new BloggerImpl();

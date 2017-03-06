@@ -6,3 +6,17 @@ cite {
     font-style: italic;
     font-size:15px
 }
+.blogs1 {
+	word-wrap: break-word;
+	width: 90%; 
+	align:justify
+}
+.chats1 {
+	word-wrap: break-word;
+	width: 45%; 
+	align:justify
+}
+.blogcontent {
+	font-style: italic;
+    font-size:15px
+}

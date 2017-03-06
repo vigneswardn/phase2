@@ -25,7 +25,7 @@ public class Comments {
 
 	private Date createdDate;
 
-	private int blogId;
+	private String blogId;
 	
 	public int getCommentId() {
 		return commentId;
@@ -59,11 +59,11 @@ public class Comments {
 		this.createdDate = createdDate;
 	}
 
-	public int getBlogId() {
+	public String getBlogId() {
 		return blogId;
 	}
 
-	public void setBlogId(int blogId) {
+	public void setBlogId(String blogId) {
 		this.blogId = blogId;
 	}
 	

@@ -40,7 +40,7 @@ public class Blog {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer blogId;
+	private String blogId;
 	
 	//@ManyToMany(mappedBy="blogs",fetch=FetchType.EAGER)
 	//@Fetch(value = FetchMode.SUBSELECT)
@@ -58,11 +58,11 @@ public class Blog {
 	//@Fetch(value = FetchMode.SUBSELECT)
 	private Set<Comments> comments = new HashSet<Comments>();
 	
-	public Integer getBlogId() {
+	public String getBlogId() {
 		return blogId;
 	}
 
-	public void setBlogId(Integer blogId) {
+	public void setBlogId(String blogId) {
 		this.blogId = blogId;
 	}
 
