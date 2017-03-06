@@ -86,7 +86,7 @@ public class BlogDAOImpl implements BlogDAO {
 	public List<Document> readComments(Blog blog) {
 		MongoDatabase db = mongo.getDatabase("cmad");
 		MongoCollection<Document> collection = db.getCollection("comments");
-		FindIterable<Document> docs = collection.find(eq("userId", blog.getBlogId()));
+		FindIterable<Document> docs = collection.find(eq("blogId", blog.getBlogId()));
 		final ArrayList<Document> results = new ArrayList<>();
 		docs.forEach(new Block<Document>() {
 			@Override
