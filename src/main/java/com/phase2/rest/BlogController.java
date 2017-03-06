@@ -79,16 +79,16 @@ public class BlogController {
 		return Response.ok().entity("success").build();
 	}
 	
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/getComments/{blogId}")
-	public Response getComments(@PathParam("blogId")String blogId) {
+	@Path("/getComments/")
+	public Response getComments(Blog blog) {
 		List<Document> comments = null;
 		try {
 			BloggerImpl impl = new BloggerImpl();
-			Blog blog = new Blog();
-			blog.setBlogId(blogId);
+			//Blog blog = new Blog();
+			//blog.setBlogId(blogId);
 			comments = impl.getComments(blog);
 		} catch(BloggerException e) {
 			Response.status(Status.BAD_REQUEST);
